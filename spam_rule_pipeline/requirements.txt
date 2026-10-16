@@ -1,0 +1,10 @@
+# Pipeline sinh rulebase spam — bộ phụ thuộc tối thiểu (image gọn, không torch).
+# Tách từ: underthesea (mặc định). PhoBERT embedding (transformers/torch) là
+# TUỲ CHỌN — khi thiếu, step4 tự fallback gom nhóm theo token (lexical).
+flask>=3.0,<4.0
+gunicorn>=21.2         # WSGI server cho production (chạy trên server, thay Flask dev)
+openpyxl>=3.1,<4.0
+numpy>=1.23,<2.0
+scipy>=1.10
+scikit-learn>=1.3
+underthesea>=6.7

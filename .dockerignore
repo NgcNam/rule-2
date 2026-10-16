@@ -1,0 +1,22 @@
+# giữ build context nhẹ: chỉ cần mã nguồn spam_rule_pipeline
+.venv
+.venv-1
+.venv-2
+**/__pycache__
+**/_uploads
+vncorenlp_models
+output
+
+# dữ liệu & kết quả lần chạy cũ (rất nặng) — không đưa vào image
+*.xlsx
+*.xls
+Pharmaci1
+Pharmaci1_v1
+Pharmaci1_v2
+Pharmaci1_v3
+nguyenkim
+nguyenkim_v1
+merge-excel
+**/*.json
+.git
+.claude

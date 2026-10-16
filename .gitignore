@@ -1,0 +1,45 @@
+# ─────────────────────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyc
+.venv/
+.venv-*/
+*.egg-info/
+
+# ─────────────────────────────────────────────────────────────
+# Dữ liệu & kết quả (file nặng — KHÔNG đẩy lên GitHub)
+# step1_segmented*.json có thể tới hàng trăm MB; GitHub chặn file >100MB.
+# Dự án không có file .json nguồn nào, nên bỏ hết .json/.xlsx cho an toàn.
+# ─────────────────────────────────────────────────────────────
+*.xlsx
+*.xls
+*.csv
+*.json
+
+# Thư mục kết quả mỗi lần chạy (tạo tự động ở gốc / trong output)
+output/
+Pharmaci1/
+Pharmaci1_v*/
+nguyenkim/
+nguyenkim_v*/
+news_object_*/
+spam_rule_pipeline/_uploads/
+
+# Model tách từ VnCoreNLP (tự tải lại khi chạy)
+vncorenlp_models/
+
+# ─────────────────────────────────────────────────────────────
+# Cấu hình local / bí mật
+# ─────────────────────────────────────────────────────────────
+.claude/
+.evn
+.env
+*.local
+
+# ─────────────────────────────────────────────────────────────
+# OS
+# ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
