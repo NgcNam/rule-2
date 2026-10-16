@@ -15,6 +15,7 @@ Output mỗi lần chạy nằm trong 1 folder tên = tên file input (tự thê
 trùng), đặt tại thư mục gốc dự án (…/rule-2). File bên trong mang đuôi = tên folder.
 """
 import argparse
+import hmac
 import os
 import re
 import subprocess
@@ -22,8 +23,8 @@ import sys
 import threading
 import uuid
 
-from flask import (Flask, abort, jsonify, redirect, render_template_string,
-                   request, send_file, url_for)
+from flask import (Flask, Response, abort, jsonify, redirect,
+                   render_template_string, request, send_file, url_for)
 
 from common import make_output_dir, read_json
 
@@ -38,6 +39,33 @@ os.makedirs(UPLOAD_TMP, exist_ok=True)
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 200 * 1024 * 1024   # 200MB
+
+# --------------------------------------------------------------- auth ---
+# Basic Auth: đặt user/mật khẩu qua biến môi trường để bảo vệ app khi mở ra
+# Internet. Bỏ trống cả hai -> TẮT auth (dùng khi chạy local/trong LAN kín).
+AUTH_USER = os.environ.get("RULEBASE_AUTH_USER", "")
+AUTH_PASS = os.environ.get("RULEBASE_AUTH_PASS", "")
+
+
+@app.before_request
+def _require_basic_auth():
+    if not AUTH_USER and not AUTH_PASS:
+        return                      # chưa cấu hình -> không bắt đăng nhập
+    if request.path == "/healthz":  # endpoint cho healthcheck, miễn auth
+        return
+    a = request.authorization
+    ok = (a is not None
+          and hmac.compare_digest(a.username or "", AUTH_USER)
+          and hmac.compare_digest(a.password or "", AUTH_PASS))
+    if not ok:
+        return Response("Cần đăng nhập.", 401,
+                        {"WWW-Authenticate": 'Basic realm="Rulebase", charset="UTF-8"'})
+
+
+@app.route("/healthz")
+def healthz():
+    return "ok", 200
+
 
 JOBS = {}                      # job_id -> dict trạng thái
 JOBS_LOCK = threading.Lock()
